@@ -1,14 +1,14 @@
 import cv2
 import winsound
-from controller.controller import *
+#from controller.controller import *
 
-face_cascade = cv2.CascadeClassifier('data\\xml\\haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('data\\xml\\cascade_face.xml')
 mouth_cascade = cv2.CascadeClassifier('data\\xml\\haarcascade_mcs_mouth.xml')
 
 count = 0
 
 # Cahaya
-bw_threshold = 80
+threshold = 80 #100 70 50
 
 # Pesan
 font = cv2.FONT_HERSHEY_DUPLEX
@@ -22,21 +22,21 @@ not_weared_mask = "Tolong Kenakan Masker Anda"
 title = "Pendeteksi Masker"
 
 # mengambil video menggunakan webcam
-cap = cv2.VideoCapture(0)
+capture =   cv2.VideoCapture(0)
 
 # mengambil video menggunakan video yg sudah ada 
 # cap = cv2.VideoCapture('test.mp4')
 
 while 1:
     # mengatur frame
-    ret, img = cap.read()
+    ret, img = capture.read()
     img = cv2.flip(img,1)
 
     # konversi gambar
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     # konversi hitam putih
-    (thresh, black_and_white) = cv2.threshold(gray, bw_threshold, 255, cv2.THRESH_BINARY)
+    (thresh, black_and_white) = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
 
     # pendeteksian wajah
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
@@ -44,11 +44,10 @@ while 1:
     # pendeteksian wajah dengan skema hitam putih
     faces_bw = face_cascade.detectMultiScale(black_and_white, 1.1, 4)
 
-
     if(len(faces) == 0 and len(faces_bw) == 0):
         cv2.putText(img, "Wajah Tidak Terdeteksi...", org, font, font_scale, weared_mask_font_color, thickness, cv2.LINE_AA)
     elif(len(faces) == 0 and len(faces_bw) == 1):
-        doorAutomate(0)
+        #doorAutomate(0)
         # It has been observed that for white mask covering mouth, with gray image face prediction is not happening
         cv2.putText(img, weared_mask, org, font, font_scale, weared_mask_font_color, thickness, cv2.LINE_AA)
     else:
@@ -63,7 +62,7 @@ while 1:
 
         # Face detected but Lips not detected which means person is wearing mask
         if(len(mouth_rects) == 0):
-            doorAutomate(0)
+            #doorAutomate(0)
             cv2.putText(img, weared_mask, org, font, font_scale, weared_mask_font_color, thickness, cv2.LINE_AA)
         else:
             for (mx, my, mw, mh) in mouth_rects:
@@ -92,5 +91,5 @@ while 1:
         break
 
 # exit
-cap.release()
+capture.release()
 cv2.destroyAllWindows()
