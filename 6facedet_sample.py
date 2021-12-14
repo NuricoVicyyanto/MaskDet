@@ -2,6 +2,7 @@ import cv2
 
 face_cascade = cv2.CascadeClassifier('data\\xml\\cascade_face.xml')
 
+
 nama = 'gray'
 
 capture = cv2.VideoCapture(0)

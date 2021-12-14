@@ -2,12 +2,13 @@ import cv2
 import winsound
 
 title = 'experiment'
-cascade = cv2.CascadeClassifier('data\\xml\\haarcascade_upperbody.xml')
-cap = cv2.VideoCapture('data_testing\\cctv.mp4')
+cascade = cv2.CascadeClassifier('data\\xml\\hand.xml')
+cap = cv2.VideoCapture(0)
 
 
 while True:
     ret, img = cap.read()
+    img = cv2.flip(img,1)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     objeck = cascade.detectMultiScale(gray, 1.1, 3)
 

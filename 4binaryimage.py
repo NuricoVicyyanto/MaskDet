@@ -1,7 +1,7 @@
 import cv2
 from matplotlib import pyplot as plt
 
-img = cv2.imread('data_testing//wajah.jpg',cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('data_testing//img.jpeg',cv2.IMREAD_GRAYSCALE)
 ret,thresh1 = cv2.threshold(img,80,255,cv2.THRESH_BINARY)
 ret,thresh2 = cv2.threshold(img,80,255,cv2.THRESH_BINARY_INV)
 ret,thresh3 = cv2.threshold(img,80,255,cv2.THRESH_TRUNC)
